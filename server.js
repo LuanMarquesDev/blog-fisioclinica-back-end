@@ -31,6 +31,24 @@ pool
     process.exit(1);
   });
 
+// Cria tabela posts se não existir
+pool
+  .query(
+    `
+  CREATE TABLE IF NOT EXISTS posts (
+    id SERIAL PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    resumo TEXT,
+    conteudo TEXT,
+    categoria VARCHAR(50),
+    imagem TEXT,
+    data DATE
+  );
+`
+  )
+  .then(() => console.log("✅ Tabela posts criada ou já existe"))
+  .catch((err) => console.error("❌ Erro ao criar tabela posts:", err));
+
 // Middleware de autenticação JWT
 function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
